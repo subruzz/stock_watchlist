@@ -34,9 +34,9 @@ class HiveServices {
     }
   }
 
-  Future<void> removeStock(int index) async {
+  Future<void> removeStock(int key) async {
     try {
-      await _box.deleteAt(index);
+      await _box.delete(key);
     } catch (e) {
       throw Exception('Failed to remove stock: $e');
     }

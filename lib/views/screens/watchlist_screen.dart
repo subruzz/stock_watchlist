@@ -8,7 +8,7 @@ class WatchlistScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Padding(
       padding: EdgeInsets.all(13),
-      child: WatchlistTable(),
+      child: SingleChildScrollView(child: WatchlistTable()),
     );
   }
 }

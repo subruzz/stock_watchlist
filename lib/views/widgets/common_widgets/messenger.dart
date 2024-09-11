@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stock_watchlist/utils/constants/ui_const.dart';
 
 class Messenger {
   static final scaffoldKey = GlobalKey<ScaffoldMessengerState>();
@@ -11,18 +12,17 @@ class Messenger {
     scaffoldKey.currentState!.clearSnackBars();
     scaffoldKey.currentState!.showSnackBar(
       SnackBar(
-        backgroundColor: color,
+        backgroundColor: color ?? kRepoDetailsColor,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
         duration: const Duration(milliseconds: 4000),
         behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.only(right: 20, left: 20, top: 30, bottom: 20),
         content: SizedBox(
           child: Text(
             message,
-            style: TextStyle(
-              color: Colors.white.withOpacity(.8),
+            style: const TextStyle(
+              color: Colors.white,
               fontSize: 14,
             ),
           ),

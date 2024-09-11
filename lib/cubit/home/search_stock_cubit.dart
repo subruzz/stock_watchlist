@@ -20,6 +20,7 @@ class SearchStockCubit extends Cubit<SearchStockState> {
       return emit(const SearchStockSuccess(searchedStocks: []));
     }
     emit(SearchStockLoading());
+    return;
     _debouncer.run(() async {
       try {
         final stocks = await _stockService.searchStocks(query);

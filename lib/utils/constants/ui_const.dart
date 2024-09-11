@@ -5,7 +5,7 @@ const double kFontSize16 = 16.0;
 const double kFontSize18 = 18.0;
 
 // Colors
-const Color kMainColor = Color.fromARGB(255, 99, 221, 205);
+ Color kMainColor = Colors.blue.shade600;
 
 const Color kGreyColor = Color(0xFF808080);
 const Color kStarColor = Colors.orange;

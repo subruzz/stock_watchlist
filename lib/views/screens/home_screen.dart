@@ -13,32 +13,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final ValueNotifier<bool> _isSearchEmpty = ValueNotifier(true);
   final TextEditingController _searchController = TextEditingController();
-  bool _isLoading = false;
-
-  List<Map<String, dynamic>> _stocks = [
-    {'symbol': 'AAPL', 'sharePrice': 150.00},
-    {'symbol': 'GOOGL', 'sharePrice': 2800.00},
-    {'symbol': 'MSFT', 'sharePrice': 300.00},
-  ];
-
-  void _onSearchChanged(String query) {
-    // Simulate a search with static data for now
-    setState(() {
-      if (query.isEmpty) {
-        _stocks = [
-          {'symbol': 'AAPL', 'sharePrice': 150.00},
-          {'symbol': 'GOOGL', 'sharePrice': 2800.00},
-          {'symbol': 'MSFT', 'sharePrice': 300.00},
-        ];
-      } else {
-        _stocks = _stocks.where((stock) {
-          return stock['symbol'].toLowerCase().contains(query.toLowerCase());
-        }).toList();
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -47,14 +23,16 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           // Search bar
           SearchTextField(
+              isSearchEmpty: _isSearchEmpty,
               searchController: _searchController,
               onSearchChanged: (value) {
+                _isSearchEmpty.value = value.isEmpty;
                 context.read<SearchStockCubit>().searchStocks(value.trim());
               }),
           kSizedBoxHeight15,
           // Loading indicator
           // Stock list
-          StockListPage()
+          const StockListPage()
         ],
       ),
     );
