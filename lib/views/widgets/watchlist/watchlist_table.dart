@@ -1,50 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stock_watchlist/cubit/watchlist/watchlist_cubit.dart';
+import 'package:stock_watchlist/model/stock_model.dart';
+import 'package:stock_watchlist/views/widgets/watchlist/watchlist_table_shimmer.dart'; // Ensure you have your StockModel defined
 
 class WatchlistTable extends StatelessWidget {
-  const WatchlistTable({Key? key}) : super(key: key);
+  const WatchlistTable({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.black),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Table(
-          border: const TableBorder(
-            top: BorderSide.none,
-            bottom: BorderSide.none,
-            left: BorderSide.none,
-            right: BorderSide.none,
-            verticalInside: BorderSide(color: Colors.black),
+    return BlocBuilder<WatchlistCubit, WatchlistState>(
+      builder: (context, state) {
+        if (state is WatchlistLoading) {
+          return const WatchlistTableShimmer();
+        }
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.black),
           ),
-          columnWidths: const {
-            0: FlexColumnWidth(2),
-            1: FlexColumnWidth(1),
-            2: FixedColumnWidth(40),
-          },
-          defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-          children: [
-            TableRow(
-              decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.black)),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Table(
+              border: const TableBorder(
+                top: BorderSide.none,
+                bottom: BorderSide.none,
+                left: BorderSide.none,
+                right: BorderSide.none,
+                verticalInside: BorderSide(color: Colors.black),
               ),
+              columnWidths: const {
+                0: FlexColumnWidth(1.5),
+                1: FlexColumnWidth(1),
+                2: FixedColumnWidth(50),
+              },
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
               children: [
-                _buildHeaderCell('Watchlist'),
-                _buildHeaderCell('Shortlist'),
-                _buildHeaderCell(''),
+                TableRow(
+                  decoration: const BoxDecoration(
+                    border: Border(bottom: BorderSide(color: Colors.black)),
+                  ),
+                  children: [
+                    _buildHeaderCell('Watchlist'),
+                    _buildHeaderCell('Share Price'),
+                    _buildHeaderCell(''),
+                  ],
+                ),
+                // Display rows based on the state
+                if (state is WatchlistSuccess)
+                  ...state.watchListItems.map((item) => _buildTableRow(item))
               ],
             ),
-            _buildTableRow('Company', 'Stoploss'),
-            _buildTableRow('TATAmotors', '350'),
-            _buildTableRow('HDFC', '2030'),
-            _buildTableRow('ITC', '215'),
-            _buildTableRow('AsianPaint', '1500'),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -60,25 +69,32 @@ class WatchlistTable extends StatelessWidget {
     );
   }
 
-  TableRow _buildTableRow(String company, String value) {
+  TableRow _buildTableRow(StockModel stock) {
     return TableRow(
       children: [
         TableCell(
           child: Padding(
             padding: EdgeInsets.all(15.0),
-            child: Text(company),
+            child: Text(stock.companyName ?? ''),
           ),
         ),
         TableCell(
           child: Padding(
             padding: EdgeInsets.all(8.0),
-            child: Text(value),
+            child: Text(stock.sharePrice
+                .toString()), // Ensure you have a 'stoploss' field or adjust accordingly
           ),
         ),
         TableCell(
           child: Padding(
             padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.close, size: 18),
+            child: IconButton(
+              icon: Icon(Icons.close, size: 18),
+              onPressed: () {
+                // Handle the remove action
+                // Example: BlocProvider.of<WatchlistCubit>(context).removeStock(stock);
+              },
+            ),
           ),
         ),
       ],

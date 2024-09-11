@@ -15,6 +15,7 @@ class SearchTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      
       controller: _searchController,
       decoration: InputDecoration(
         contentPadding:

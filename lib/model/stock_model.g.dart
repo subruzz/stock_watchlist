@@ -17,19 +17,22 @@ class StockModelAdapter extends TypeAdapter<StockModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return StockModel(
-      symbol: fields[0] as String,
-      sharePrice: fields[1] as double,
+      companyName: fields[2] as String,
+      symbol: fields[0] as String?,
+      sharePrice: fields[1] as double?,
     );
   }
 
   @override
   void write(BinaryWriter writer, StockModel obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.symbol)
       ..writeByte(1)
-      ..write(obj.sharePrice);
+      ..write(obj.sharePrice)
+      ..writeByte(2)
+      ..write(obj.companyName);
   }
 
   @override

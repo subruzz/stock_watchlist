@@ -1,11 +1,13 @@
+import 'dart:developer';
+
 import 'package:hive/hive.dart';
 import 'package:stock_watchlist/model/stock_model.dart';
 import 'package:stock_watchlist/utils/constants/strings.dart';
 
-class StockRepository {
+class HiveServices {
   final Box<StockModel> _box;
 
-  StockRepository() : _box = Hive.box<StockModel>(hiveBox);
+  HiveServices() : _box = Hive.box<StockModel>(hiveBox);
 
   Future<void> addStock(StockModel stock) async {
     try {
@@ -18,6 +20,8 @@ class StockRepository {
       }
     } catch (e) {
       throw Exception('Failed to add stock: $e');
+    } finally {
+      log('new vlaues in box is ${_box.values.toList()}');
     }
   }
 

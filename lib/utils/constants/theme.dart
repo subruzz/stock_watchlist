@@ -22,4 +22,9 @@ var theme = ThemeData(
     unselectedItemColor: kGreyColor,
     selectedIconTheme: IconThemeData(size: 27),
   ),
+  elevatedButtonTheme: const ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: WidgetStatePropertyAll(kMainColor),
+    ),
+  ),
 );

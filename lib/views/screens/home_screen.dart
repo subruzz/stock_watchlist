@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stock_watchlist/cubit/home/search_stock_cubit.dart';
 import 'package:stock_watchlist/utils/constants/ui_const.dart';
 import 'package:stock_watchlist/views/widgets/home/search_field.dart';
 import 'package:stock_watchlist/views/widgets/home/stock_list.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -43,11 +47,14 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           // Search bar
           SearchTextField(
-              searchController: _searchController, onSearchChanged: (value) {}),
+              searchController: _searchController,
+              onSearchChanged: (value) {
+                context.read<SearchStockCubit>().searchStocks(value.trim());
+              }),
           kSizedBoxHeight15,
           // Loading indicator
           // Stock list
-          StockListPage(stocks: _stocks)
+          StockListPage()
         ],
       ),
     );
