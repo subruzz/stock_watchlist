@@ -14,7 +14,7 @@ class StockRepository {
       if (!stockExists) {
         await _box.add(stock);
       } else {
- 
+        throw Exception('This item is already in the wishlist');
       }
     } catch (e) {
       throw Exception('Failed to add stock: $e');
