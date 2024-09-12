@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:stock_watchlist/model/stock_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,20 +14,20 @@ class SearchStockCubit extends Cubit<SearchStockState> {
   final _debouncer = Debouncer(delay: const Duration(milliseconds: 700));
   SearchStockCubit(this._stockService)
       : super(
-          const SearchStockSuccess(searchedStocks: []),
+          SearchStockInitial(),
         );
 
   Future<void> searchStocks(String query) async {
     if (query.isEmpty) {
-      return emit(const SearchStockSuccess(searchedStocks: []));
+      return emit(SearchStockInitial());
     }
     emit(SearchStockLoading());
-    return;
     _debouncer.run(() async {
       try {
         final stocks = await _stockService.searchStocks(query);
         emit(SearchStockSuccess(searchedStocks: stocks));
       } catch (e) {
+        log('yes its the exepciton of main');
         if (e is MainException) {
           emit(SearchStockFailure(message: e.message));
         } else {

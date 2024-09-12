@@ -5,7 +5,7 @@ const double kFontSize16 = 16.0;
 const double kFontSize18 = 18.0;
 
 // Colors
- Color kMainColor = Colors.blue.shade600;
+Color kMainColor = Colors.blue.shade600;
 
 const Color kGreyColor = Color(0xFF808080);
 const Color kStarColor = Colors.orange;
@@ -47,15 +47,14 @@ const SizedBox kSizedBoxHeight30 = SizedBox(height: 30.0);
 const TextStyle kHeadingTextStyle = TextStyle(
   fontSize: 16.0,
   fontWeight: FontWeight.bold,
-  color: Colors.black,
+  color: kGreyColor,
 );
 
 const TextStyle kSubHeadingTextStyle = TextStyle(
   fontSize: 16.0,
   fontWeight: FontWeight.w600,
-  color: Colors.black87,
+  color: kGreyColor,
 );
-
 const TextStyle kBodyTextStyle = TextStyle(
   fontSize: 14.0,
   fontWeight: FontWeight.normal,

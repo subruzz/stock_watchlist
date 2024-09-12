@@ -29,7 +29,7 @@ class WatchlistTableShimmer extends StatelessWidget {
           defaultVerticalAlignment: TableCellVerticalAlignment.middle,
           children: [
             TableRow(
-              decoration: BoxDecoration(
+              decoration:const  BoxDecoration(
                 border: Border(bottom: BorderSide(color: Colors.black)),
               ),
               children: [

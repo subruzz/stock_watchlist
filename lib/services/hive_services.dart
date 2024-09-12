@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:hive/hive.dart';
 import 'package:stock_watchlist/model/stock_model.dart';
 import 'package:stock_watchlist/utils/constants/strings.dart';
+import 'package:stock_watchlist/utils/exceptions/main_exception.dart';
 
 class HiveServices {
   final Box<StockModel> _box;
@@ -16,12 +15,11 @@ class HiveServices {
       if (!stockExists) {
         await _box.add(stock);
       } else {
-        throw Exception('This item is already in the wishlist');
+        throw MainException('This item is already in the wishlist');
       }
     } catch (e) {
-      throw Exception('Failed to add stock: $e');
-    } finally {
-      log('new vlaues in box is ${_box.values.toList()}');
+      throw MainException(
+          e is MainException ? e.message : 'Failed to add stock: $e');
     }
   }
 
@@ -30,7 +28,7 @@ class HiveServices {
       final stocks = _box.values.toList();
       return stocks;
     } catch (e) {
-      throw Exception('Failed to retrieve watchlist: $e');
+      throw MainException('Failed to retrieve watchlist: $e');
     }
   }
 
@@ -38,7 +36,7 @@ class HiveServices {
     try {
       await _box.delete(key);
     } catch (e) {
-      throw Exception('Failed to remove stock: $e');
+      throw MainException('Failed to remove stock: ');
     }
   }
 }

@@ -1,66 +1,56 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:equatable/equatable.dart';
+import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:stock_watchlist/model/stock_model.dart';
 import 'package:stock_watchlist/services/hive_services.dart';
-
 import '../../utils/exceptions/main_exception.dart';
-
-part 'watchlist_state.dart';
+import 'watchlist_state.dart';
 
 class WatchlistCubit extends Cubit<WatchlistState> {
   final HiveServices hiveServices;
 
-  WatchlistCubit(this.hiveServices) : super(const WatchlistState());
+  WatchlistCubit(this.hiveServices) : super(WatchlistInitial());
 
   // Fetch watchlist items
   void getWatchListItems() async {
-    emit(state.copyWith(
-        isLoading: true, message: null)); // Reset message and set loading
+    emit(WatchlistInitLoading());
     try {
       final res = await hiveServices.getWatchlist();
-      emit(state.copyWith(
-          isLoading: false, watchListItems: res)); // Success case
+      emit(WatchlistLoaded(res));
     } catch (e) {
-      emit(state.copyWith(
-          isLoading: false,
-          hasError: true,
-          message: 'Failed to load watchlist')); // Error case
+      emit(const WatchlistError('Failed to load watchlist'));
     }
   }
 
   // Remove an item from the watchlist
   void removeFromWatchlist(int key) async {
+    emit(WatchlistLoading());
     try {
       await hiveServices.removeStock(key);
-      emit(state.copyWith(
-          message:
-              'Item has been removed from the watchlist')); // Success message
+      emit(const WatchlistActionSuccess(
+          'Item has been removed from the watchlist'));
       getWatchListItems(); // Refresh watchlist
     } catch (e) {
       if (e is MainException) {
-        emit(state.copyWith(message: e.message)); // Emit exception message
+        emit(WatchlistError(e.message));
       } else {
-        emit(state.copyWith(
-            message: 'An unknown error occurred.')); // Default error message
+        emit(const WatchlistError('An unknown error occurred.'));
       }
     }
   }
 
   void addToWatchlist(StockModel stock) async {
+    emit(WatchlistLoading());
     try {
       await hiveServices.addStock(stock);
-      emit(state.copyWith(
-          message:
-              'Item has been added to the watchlist')); // Success message
-      getWatchListItems(); // Refresh watchlist
+      emit(
+          const WatchlistActionSuccess('Item has been added to the watchlist'));
+      getWatchListItems();
     } catch (e) {
       if (e is MainException) {
-        emit(state.copyWith(message: e.message)); // Emit exception message
+        log('main exception');
+        emit(WatchlistError(e.message));
       } else {
-        emit(state.copyWith(
-            message: 'An unknown error occurred.')); // Default error message
+        emit(const WatchlistError('An unknown error occurred.'));
       }
     }
   }
