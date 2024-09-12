@@ -1,16 +1,31 @@
-# stock_watchlist
+# Stock Watchlist
 
-A new Flutter project.
+A Flutter mobile app that allows users to search for company names and their stock prices using the Alphavantage API, save stocks to a watchlist, and manage the watchlist locally.
+
+## Project Setup
+
+This project is designed to be a starting point for a Flutter application that fetches and manages stock data. Follow these instructions to set up and run the app locally.
+
+## Features
+
+- **Home Screen**: 
+  - Search for companies and view their latest stock prices.
+  - Add stocks to the watchlist.
+  
+- **Watchlist Screen**: 
+  - View and manage saved stocks.
+  - Delete stocks from the watchlist.
+
+## Prerequisites
+
+- [Flutter](https://flutter.dev/docs/get-started/install)
+- [Dart SDK](https://dart.dev/get-dart)
+- An Alphavantage API key (get a free API key from [Alphavantage](https://www.alphavantage.co/support/#api-key))
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### 1. Clone the Repository
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+git clone https://github.com/yourusername/stock-watchlist.git
+cd stock-watchlist
